@@ -1,0 +1,7 @@
+@mixin colormix {
+  color: green;
+}
+
+.hello  {
+@include colormix
+}
