@@ -1,7 +1,5 @@
-@mixin colormix {
-  color: var(--color-secondaryText);
-}
-
-.hello  {
-@include colormix
+.main  {
+width: 50%;
+margin: 0 auto;
+position: relative;
 }
