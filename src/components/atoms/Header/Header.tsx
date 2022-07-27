@@ -3,5 +3,5 @@ interface BigHeaderProps {
 }
 
 export function BigHeader({ text }: BigHeaderProps) {
-  return <h1>{text}</h1>;
+  return <h2>{text}</h2>;
 }
