@@ -1,13 +1,24 @@
 import css from './App.module.scss';
-import Button from './components/atoms/Button/Button';
-import { BigHeader } from './components/atoms/Header/Header';
+import NavBar from './components/NavBar/NavBar';
+import { Route, Routes } from 'react-router-dom';
+import Home from './components/pages/Home/Home';
+import NotFound from './components/pages/NotFound/NotFound';
+import Login from './components/pages/Home/Login/Login';
+import Answers from './components/pages/Answers/Answers';
 
 function App() {
   return (
-    <div className={css.main}>
-      <BigHeader text="All Questions" />
-      <Button>Ask Question</Button>
-    </div>
+    <>
+      <NavBar />
+      <div className={css.main}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/answers/:id" element={<Answers />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+    </>
   );
 }
 
