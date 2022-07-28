@@ -5,6 +5,7 @@ import { BigHeader } from '../../atoms/Header/Header';
 import QuestionsList from '../../organisms/QuestionsList/QuestionsList';
 import { getQuestions } from '../../../api/api';
 import { useAuthCtx } from '../../../store/AuthProvider';
+import Modal from '../../atoms/Modal/Modal';
 
 const actionGetQuestions = async (setQuestions: (a: any) => void) => {
   const res = await getQuestions();
@@ -32,13 +33,18 @@ function Home() {
   };
 
   return (
-    <div className={css.main}>
-      <div className={css.header}>
-        <BigHeader text="All Questions" />
-        <Button onClick={askQuestionHandler}>Ask Question</Button>
+    <>
+      <Modal show={true}>
+        <h1>This is going to be a modal</h1>
+      </Modal>
+      <div className={css.main}>
+        <div className={css.header}>
+          <BigHeader text="All Questions" />
+          <Button onClick={askQuestionHandler}>Ask Question</Button>
+        </div>
+        <QuestionsList questions={questions} />
       </div>
-      <QuestionsList questions={questions} />
-    </div>
+    </>
   );
 }
 
