@@ -34,4 +34,16 @@ async function loginUser(credentials: { email: string; password: string }) {
   }
 }
 
-export { getQuestions, getAnswers, loginUser };
+async function registerUser(credentials: { email: string; password: string }) {
+  try {
+    const res: AxiosResponse = await axios.post(
+      `${BASE_URL}/user/register`,
+      credentials,
+    );
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export { getQuestions, getAnswers, loginUser, registerUser };

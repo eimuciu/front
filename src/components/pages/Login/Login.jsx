@@ -5,7 +5,7 @@ import Input from '../../atoms/Input/Input';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { FormButton } from '../../atoms/Button/Button';
-import { loginUser } from '../../../api/api';
+import { loginUser, registerUser } from '../../../api/api';
 import { useAuthCtx } from '../../../store/AuthProvider';
 import { useMsgCtx } from '../../../store/MessagingProvider';
 
@@ -66,13 +66,25 @@ function Login({ closeModal }) {
           login(loginResponse.token);
           makeMessage(loginResponse.msg, 'success');
           setIsLoading(false);
+          actions.resetForm();
           closeModal();
           return;
         }
         setIsLoading(false);
         makeMessage(loginResponse.msg, 'error');
       }
-      actions.resetForm();
+      if (pageState === 'register') {
+        const { email, password } = values;
+        const registerResponse = await registerUser({ email, password });
+        if (registerResponse && registerResponse.success) {
+          makeMessage(registerResponse.msg, 'success');
+          setIsLoading(false);
+          actions.resetForm();
+          return;
+        }
+        setIsLoading(false);
+        makeMessage(registerResponse.msg, 'error');
+      }
     },
   });
 
