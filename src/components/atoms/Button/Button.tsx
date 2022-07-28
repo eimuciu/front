@@ -22,4 +22,12 @@ export function FormButton({ children, onClick, type }: Props): JSX.Element {
   );
 }
 
+export function AnswerButton({ children, onClick, type }: Props): JSX.Element {
+  return (
+    <button type={type} className={css.answerButton} onClick={onClick}>
+      {children}
+    </button>
+  );
+}
+
 export default Button;

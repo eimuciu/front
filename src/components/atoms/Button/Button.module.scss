@@ -18,3 +18,10 @@
   border: 1px solid $color;
   color: $color;
 }
+
+.answerButton {
+  @include buttonM;
+  $color: var(--color-third);
+  background-color: $color;
+  color: white;
+}
