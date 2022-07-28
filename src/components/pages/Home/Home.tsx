@@ -8,11 +8,16 @@ import { useAuthCtx } from '../../../store/AuthProvider';
 import Modal from '../../atoms/Modal/Modal';
 import AskQuestionForm from '../../organisms/AskQuestionForm/AskQuestionForm';
 import { useMsgCtx } from '../../../store/MessagingProvider';
+import BouncingLoader from '../../molecules/BouncingLoader/BouncingLoader';
 
-const actionGetQuestions = async (setQuestions: (a: any) => void) => {
+const actionGetQuestions = async (
+  setQuestions: (a: any) => void,
+  setLoading: (a: any) => void,
+) => {
   const res = await getQuestions();
   if (res.success) {
     setQuestions(res.data);
+    setLoading(false);
     return;
   }
 };
@@ -20,11 +25,13 @@ const actionGetQuestions = async (setQuestions: (a: any) => void) => {
 function Home() {
   const [questions, setQuestions] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { isUserLoggedIn } = useAuthCtx();
   const { makeMessage } = useMsgCtx();
 
   useEffect(() => {
-    actionGetQuestions(setQuestions);
+    setLoading(true);
+    actionGetQuestions(setQuestions, setLoading);
   }, []);
 
   console.log(questions);
@@ -46,12 +53,13 @@ function Home() {
       <Modal show={showModal} closeModal={closeModal}>
         <AskQuestionForm closeModal={closeModal} />
       </Modal>
+
       <div className={css.main}>
         <div className={css.header}>
           <BigHeader text="All Questions" />
           <Button onClick={askQuestionHandler}>Ask Question</Button>
         </div>
-        <QuestionsList questions={questions} />
+        {loading ? <BouncingLoader /> : <QuestionsList questions={questions} />}
       </div>
     </>
   );
