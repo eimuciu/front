@@ -25,7 +25,7 @@ function NavBar() {
   return (
     <>
       <Modal show={showModal} closeModal={closeModal}>
-        <Login />
+        <Login closeModal={closeModal} />
       </Modal>
       <div className={css.main}>
         <Link to="/">

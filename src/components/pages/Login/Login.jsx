@@ -7,11 +7,12 @@ import * as Yup from 'yup';
 import { FormButton } from '../../atoms/Button/Button';
 import { loginUser } from '../../../api/api';
 import { useAuthCtx } from '../../../store/AuthProvider';
+import { useMsgCtx } from '../../../store/MessagingProvider';
 
-const objShape = {
-  email: '',
-  password: '',
-};
+// const objShape = {
+//   email: '',
+//   password: '',
+// };
 
 const loginValues = {
   email: '',
@@ -45,9 +46,11 @@ const registerValidation = Yup.object({
     .oneOf([Yup.ref('password'), null], 'Passwords must match'),
 });
 
-function Login() {
+function Login({ closeModal }) {
   const [pageState, setPageState] = useState('login');
+  const [loading, setIsLoading] = useState(false);
   const { login } = useAuthCtx();
+  const { makeMessage } = useMsgCtx();
 
   const formik = useFormik({
     initialValues: pageState === 'login' ? loginValues : registerValues,
@@ -56,22 +59,19 @@ function Login() {
     validateOnBlur: true,
     validateOnChange: false,
     onSubmit: async (values, actions) => {
+      setIsLoading(true);
       if (pageState === 'login') {
         const loginResponse = await loginUser(values);
         if (loginResponse && loginResponse.success) {
           login(loginResponse.token);
+          makeMessage(loginResponse.msg, 'success');
+          setIsLoading(false);
+          closeModal();
+          return;
         }
+        setIsLoading(false);
+        makeMessage(loginResponse.msg, 'error');
       }
-
-      //   setIsLoading(true);
-      //   const datadetails = await postDataToServer(values);
-      //   if (datadetails.err) {
-      //     makeMessage(datadetails.err, 'error');
-      //     setIsLoading(false);
-      //     return;
-      //   }
-      //   setIsLoading(false);
-      //   makeMessage(datadetails.msg, 'success');
       actions.resetForm();
     },
   });
@@ -122,9 +122,15 @@ function Login() {
             }
           />
         )}
-        {pageState === 'login' && <FormButton type="submit">Login</FormButton>}
+        {pageState === 'login' && (
+          <FormButton type="submit">
+            {loading ? 'Loading...' : 'Login'}
+          </FormButton>
+        )}
         {pageState === 'register' && (
-          <FormButton type="submit">Register</FormButton>
+          <FormButton type="submit">
+            {loading ? 'Loading...' : 'Register'}
+          </FormButton>
         )}
       </form>
       {pageState === 'login' && (

@@ -6,14 +6,18 @@ import { FormButton } from '../../atoms/Button/Button';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-const questionShape = {
-  body: '',
-  createdAt: new Date().valueOf(),
-  isEdited: false,
-  isRead: false,
-  title: '',
-  uid: '',
-};
+interface Props {
+  closeModal: () => void;
+}
+
+// const questionShape = {
+//   body: '',
+//   createdAt: new Date().valueOf(),
+//   isEdited: false,
+//   isRead: false,
+//   title: '',
+//   uid: '',
+// };
 
 const initialValues = {
   title: '',
@@ -25,7 +29,7 @@ const validation = Yup.object({
   body: Yup.string().required('Question is required'),
 });
 
-function AskQuestionForm() {
+function AskQuestionForm({ closeModal }: Props) {
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validation,

@@ -7,6 +7,7 @@ import { getQuestions } from '../../../api/api';
 import { useAuthCtx } from '../../../store/AuthProvider';
 import Modal from '../../atoms/Modal/Modal';
 import AskQuestionForm from '../../organisms/AskQuestionForm/AskQuestionForm';
+import { useMsgCtx } from '../../../store/MessagingProvider';
 
 const actionGetQuestions = async (setQuestions: (a: any) => void) => {
   const res = await getQuestions();
@@ -20,6 +21,7 @@ function Home() {
   const [questions, setQuestions] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const { isUserLoggedIn } = useAuthCtx();
+  const { makeMessage } = useMsgCtx();
 
   useEffect(() => {
     actionGetQuestions(setQuestions);
@@ -29,7 +31,7 @@ function Home() {
 
   const askQuestionHandler = () => {
     if (!isUserLoggedIn) {
-      alert('Please login before asking a question');
+      makeMessage('Please login before asking a question', 'error');
       return;
     }
     setShowModal(true);
@@ -42,7 +44,7 @@ function Home() {
   return (
     <>
       <Modal show={showModal} closeModal={closeModal}>
-        <AskQuestionForm />
+        <AskQuestionForm closeModal={closeModal} />
       </Modal>
       <div className={css.main}>
         <div className={css.header}>
