@@ -3,6 +3,7 @@ import css from './Button.module.scss';
 interface Props {
   children: string | JSX.Element;
   onClick?: () => void;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 function Button({ children, onClick }: Props): JSX.Element {
@@ -13,9 +14,9 @@ function Button({ children, onClick }: Props): JSX.Element {
   );
 }
 
-export function FormButton({ children, onClick }: Props): JSX.Element {
+export function FormButton({ children, onClick, type }: Props): JSX.Element {
   return (
-    <button className={css.formButton} onClick={onClick}>
+    <button type={type} className={css.formButton} onClick={onClick}>
       {children}
     </button>
   );

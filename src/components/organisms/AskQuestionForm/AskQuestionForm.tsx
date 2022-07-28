@@ -70,7 +70,7 @@ function AskQuestionForm() {
           placeholder="Question"
           error={formik.touched.body && formik.errors.body}
         />
-        <FormButton>Ask</FormButton>
+        <FormButton type="submit">Ask</FormButton>
       </form>
     </div>
   );

@@ -18,7 +18,7 @@ const actionGetQuestions = async (setQuestions: (a: any) => void) => {
 
 function Home() {
   const [questions, setQuestions] = useState([]);
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const { isUserLoggedIn } = useAuthCtx();
 
   useEffect(() => {
@@ -35,9 +35,13 @@ function Home() {
     setShowModal(true);
   };
 
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <>
-      <Modal show={showModal}>
+      <Modal show={showModal} closeModal={closeModal}>
         <AskQuestionForm />
       </Modal>
       <div className={css.main}>
