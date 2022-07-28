@@ -5,19 +5,22 @@ import { BigHeader } from '../../atoms/Header/Header';
 import QuestionsList from '../../organisms/QuestionsList/QuestionsList';
 import { getQuestions } from '../../../api/api';
 
+const actionGetQuestions = async (setQuestions: (a: any) => void) => {
+  const res = await getQuestions();
+  if (res.success) {
+    setQuestions(res.data);
+    return;
+  }
+};
+
 function Home() {
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
-    const questions = async () => {
-      const res = await getQuestions();
-      if (res.success) {
-        setQuestions(res.data);
-        return;
-      }
-    };
-    questions();
+    actionGetQuestions(setQuestions);
   }, []);
+
+  console.log(questions);
 
   return (
     <div className={css.main}>

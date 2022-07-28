@@ -11,4 +11,15 @@ async function getQuestions() {
   }
 }
 
-export { getQuestions };
+async function getAnswers(qId: string) {
+  try {
+    const res: AxiosResponse = await axios.get(
+      `${BASE_URL}/questions/${qId}/answers`,
+    );
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export { getQuestions, getAnswers };
