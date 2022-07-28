@@ -13,4 +13,12 @@ function Button({ children, onClick }: Props): JSX.Element {
   );
 }
 
+export function FormButton({ children, onClick }: Props): JSX.Element {
+  return (
+    <button className={css.formButton} onClick={onClick}>
+      {children}
+    </button>
+  );
+}
+
 export default Button;

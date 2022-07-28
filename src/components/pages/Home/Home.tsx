@@ -6,6 +6,7 @@ import QuestionsList from '../../organisms/QuestionsList/QuestionsList';
 import { getQuestions } from '../../../api/api';
 import { useAuthCtx } from '../../../store/AuthProvider';
 import Modal from '../../atoms/Modal/Modal';
+import AskQuestionForm from '../../organisms/AskQuestionForm/AskQuestionForm';
 
 const actionGetQuestions = async (setQuestions: (a: any) => void) => {
   const res = await getQuestions();
@@ -17,6 +18,7 @@ const actionGetQuestions = async (setQuestions: (a: any) => void) => {
 
 function Home() {
   const [questions, setQuestions] = useState([]);
+  const [showModal, setShowModal] = useState(true);
   const { isUserLoggedIn } = useAuthCtx();
 
   useEffect(() => {
@@ -30,12 +32,13 @@ function Home() {
       alert('Please login before asking a question');
       return;
     }
+    setShowModal(true);
   };
 
   return (
     <>
-      <Modal show={true}>
-        <h1>This is going to be a modal</h1>
+      <Modal show={showModal}>
+        <AskQuestionForm />
       </Modal>
       <div className={css.main}>
         <div className={css.header}>

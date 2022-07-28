@@ -9,7 +9,10 @@ function Modal({ children, show }: Props) {
   const showStyle = show ? 'block' : 'none';
   return (
     <div style={{ display: showStyle }} className={css.main}>
-      {children}
+      <div className={css.childContainer}>
+        <i className={`fa fa-close ${css.faClose}`}></i>
+        {children}
+      </div>
     </div>
   );
 }
