@@ -4,6 +4,7 @@ import { getAnswers } from '../../../api/api';
 import paramsvalue from '../../../utils/getParams';
 import QuestionCard from '../../molecules/QuestionCard/QuestionCard';
 import { SmallHeader } from '../../atoms/Header/Header';
+import AnswersList from '../../organisms/AnswersList/AnswersList';
 
 const actionGetAnswers = async (id, setAnswers) => {
   const res = await getAnswers(id);
@@ -29,9 +30,7 @@ function Answers() {
     <div>
       <QuestionCard singleQuestion={question} />
       <SmallHeader text="All Answers" />
-      {answers.map((aObj, idx) => (
-        <p>{idx}</p>
-      ))}
+      <AnswersList answers={answers} />
     </div>
   );
 }
