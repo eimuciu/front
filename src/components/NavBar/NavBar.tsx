@@ -4,9 +4,11 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.jpg';
 import Modal from '../atoms/Modal/Modal';
 import Login from '../pages/Login/Login';
+import { useAuthCtx } from '../../store/AuthProvider';
 
 function NavBar() {
   const [showModal, setShowModal] = useState(false);
+  const { isUserLoggedIn, logout } = useAuthCtx();
 
   const handleLoginClick = () => {
     setShowModal(true);
@@ -14,6 +16,10 @@ function NavBar() {
 
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  const handleLogoutClick = () => {
+    logout();
   };
 
   return (
@@ -25,9 +31,20 @@ function NavBar() {
         <Link to="/">
           <img alt="logo" src={logo} />
         </Link>
-        <div onClick={handleLoginClick} role="button" className={css.navlink}>
-          Login
-        </div>
+        {!isUserLoggedIn && (
+          <div onClick={handleLoginClick} role="button" className={css.navlink}>
+            Login
+          </div>
+        )}
+        {isUserLoggedIn && (
+          <div
+            onClick={handleLogoutClick}
+            role="button"
+            className={css.navlink}
+          >
+            Logout
+          </div>
+        )}
       </div>
     </>
   );

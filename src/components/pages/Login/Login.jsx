@@ -5,6 +5,8 @@ import Input from '../../atoms/Input/Input';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { FormButton } from '../../atoms/Button/Button';
+import { loginUser } from '../../../api/api';
+import { useAuthCtx } from '../../../store/AuthProvider';
 
 const objShape = {
   email: '',
@@ -45,6 +47,7 @@ const registerValidation = Yup.object({
 
 function Login() {
   const [pageState, setPageState] = useState('login');
+  const { login } = useAuthCtx();
 
   const formik = useFormik({
     initialValues: pageState === 'login' ? loginValues : registerValues,
@@ -53,7 +56,13 @@ function Login() {
     validateOnBlur: true,
     validateOnChange: false,
     onSubmit: async (values, actions) => {
-      alert(JSON.stringify(values));
+      if (pageState === 'login') {
+        const loginResponse = await loginUser(values);
+        if (loginResponse && loginResponse.success) {
+          login(loginResponse.token);
+        }
+      }
+
       //   setIsLoading(true);
       //   const datadetails = await postDataToServer(values);
       //   if (datadetails.err) {
@@ -67,7 +76,7 @@ function Login() {
     },
   });
 
-  const switchState = () => {
+  const switchPageState = () => {
     if (pageState === 'login') {
       setPageState('register');
     }
@@ -121,7 +130,7 @@ function Login() {
       {pageState === 'login' && (
         <p>
           Do not have an account? Register{' '}
-          <span onClick={switchState} role="button">
+          <span onClick={switchPageState} role="button">
             here
           </span>
         </p>
@@ -129,7 +138,7 @@ function Login() {
       {pageState === 'register' && (
         <p>
           Login{' '}
-          <span onClick={switchState} role="button">
+          <span onClick={switchPageState} role="button">
             here
           </span>
         </p>

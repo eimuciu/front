@@ -22,4 +22,16 @@ async function getAnswers(qId: string) {
   }
 }
 
-export { getQuestions, getAnswers };
+async function loginUser(credentials: { email: string; password: string }) {
+  try {
+    const res: AxiosResponse = await axios.post(
+      `${BASE_URL}/user/login`,
+      credentials,
+    );
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export { getQuestions, getAnswers, loginUser };
