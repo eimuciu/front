@@ -24,7 +24,7 @@ function AuthProvider({ children }: Props) {
   return <AuthContext.Provider value={ctx}>{children}</AuthContext.Provider>;
 }
 
-export function useAuthCtx() {
+export function useAuthCtx(): any {
   return useContext(AuthContext);
 }
 
