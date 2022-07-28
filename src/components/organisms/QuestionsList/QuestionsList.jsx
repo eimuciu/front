@@ -1,7 +1,7 @@
 import QuestionCard from "../../molecules/QuestionCard/QuestionCard"
 
-function QuestionsList() {
-    return <div>{[1,2,3,4,5].map((_) => <QuestionCard />)}</div>
+function QuestionsList({questions}) {
+    return <div>{questions.map((qObj) => <QuestionCard key={qObj._id} singleQuestion={qObj} />)}</div>
 }
 
 export default QuestionsList
