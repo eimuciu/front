@@ -1,45 +1,43 @@
 import { useState } from 'react';
-import css from './AskQuestionForm.module.scss';
+import css from './AnswerQuestionForm.module.scss';
 import { BigHeader } from '../../atoms/Header/Header';
-import Input from '../../atoms/Input/Input';
 import TextArea from '../../atoms/TextArea/TextArea';
 import { FormButton } from '../../atoms/Button/Button';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { postQuestion } from '../../../api/api';
+import { postAnswer } from '../../../api/api';
 import { useAuthCtx } from '../../../store/AuthProvider';
 import { useMsgCtx } from '../../../store/MessagingProvider';
-import type { QuestionShape } from '../../../types/types';
+import type { AnswerShape } from '../../../types/types';
 
 interface Props {
   closeModal: () => void;
-  addQuestion: (a: QuestionShape) => void;
+  addAnswer: (a: AnswerShape) => void;
+  questionId: string;
 }
 
-const questionShape = {
+const answerShape = {
   body: '',
   createdAt: new Date().valueOf(),
+  dislikes: [],
   isEdited: false,
-  isRead: false,
-  title: '',
+  likes: [],
+  qid: '',
   uid: '',
 };
 
 const initialValues = {
-  title: '',
   body: '',
 };
 
 const validation = Yup.object({
-  title: Yup.string().required('Title is required'),
-  body: Yup.string().required('Question is required'),
+  body: Yup.string().required('Answer is required'),
 });
 
-function AskQuestionForm({ closeModal, addQuestion }: Props) {
+function AnswerQuestionForm({ closeModal, addAnswer, questionId }: Props) {
   const [loading, setLoading] = useState(false);
   const { user } = useAuthCtx();
   const { makeMessage } = useMsgCtx();
-  console.log(user);
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validation,
@@ -47,14 +45,17 @@ function AskQuestionForm({ closeModal, addQuestion }: Props) {
     validateOnChange: false,
     onSubmit: async (values, actions) => {
       setLoading(true);
-      const postResponse = await postQuestion({
-        ...questionShape,
-        uid: user._id,
-        title: values.title,
-        body: values.body,
-      });
+      const postResponse = await postAnswer(
+        {
+          ...answerShape,
+          uid: user._id,
+          body: values.body,
+          qid: questionId,
+        },
+        questionId,
+      );
       if (postResponse && postResponse.data.success) {
-        addQuestion(postResponse.data.data);
+        addAnswer(postResponse.data.data);
         setLoading(false);
         makeMessage(postResponse.data.msg, 'success');
         closeModal();
@@ -69,31 +70,24 @@ function AskQuestionForm({ closeModal, addQuestion }: Props) {
   return (
     <div className={css.main}>
       <span>
-        <BigHeader text="Ask question" />
+        <BigHeader text="Answer question" />
       </span>
       <form onSubmit={formik.handleSubmit}>
-        <Input
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.title}
-          name="title"
-          type="text"
-          placeholder="Title"
-          error={formik.touched.title && formik.errors.title}
-        />
         <TextArea
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.body}
           name="body"
           type="text"
-          placeholder="Question"
+          placeholder="Answer"
           error={formik.touched.body && formik.errors.body}
         />
-        <FormButton type="submit">{loading ? 'Waiting...' : 'Ask'}</FormButton>
+        <FormButton type="submit">
+          {loading ? 'Waiting...' : 'Answer'}
+        </FormButton>
       </form>
     </div>
   );
 }
 
-export default AskQuestionForm;
+export default AnswerQuestionForm;

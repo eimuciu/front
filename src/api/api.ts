@@ -62,4 +62,31 @@ async function postQuestion(qObj: any) {
   }
 }
 
-export { getQuestions, getAnswers, loginUser, registerUser, postQuestion };
+async function postAnswer(aObj: any, qId: string) {
+  const token = sessionStorage.getItem('tkn');
+
+  try {
+    const res: AxiosResponse = await axios.post(
+      `${BASE_URL}/questions/${qId}/answers`,
+      aObj,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return res;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export {
+  getQuestions,
+  getAnswers,
+  loginUser,
+  registerUser,
+  postQuestion,
+  postAnswer,
+};

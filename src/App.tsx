@@ -9,6 +9,7 @@ import { useMsgCtx } from './store/MessagingProvider';
 
 function App() {
   const { message, showMessage, messageType } = useMsgCtx();
+
   return (
     <>
       <MessageModal message={message} type={messageType} show={showMessage} />

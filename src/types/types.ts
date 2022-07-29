@@ -6,3 +6,13 @@ export interface QuestionShape {
   title: string;
   uid: string;
 }
+
+export interface AnswerShape {
+  body: string;
+  createdAt: number;
+  dislikes: string[];
+  isEdited: boolean;
+  likes: string[];
+  qid: string;
+  uid: string;
+}

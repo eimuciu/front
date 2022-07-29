@@ -61,7 +61,6 @@ function Home() {
           addQuestion={handleAddQuestion}
         />
       </Modal>
-
       <div className={css.main}>
         <div className={css.header}>
           <BigHeader text="All Questions" />
