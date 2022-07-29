@@ -82,6 +82,26 @@ async function postAnswer(aObj: any, qId: string) {
   }
 }
 
+async function updateAnswer(aObj: any, aId: string) {
+  const token = sessionStorage.getItem('tkn');
+
+  try {
+    const res: AxiosResponse = await axios.put(
+      `${BASE_URL}/answers/${aId}`,
+      aObj,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return res;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export {
   getQuestions,
   getAnswers,
@@ -89,4 +109,5 @@ export {
   registerUser,
   postQuestion,
   postAnswer,
+  updateAnswer,
 };
