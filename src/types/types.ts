@@ -8,6 +8,7 @@ export interface QuestionShape {
 }
 
 export interface AnswerShape {
+  _id: string;
   body: string;
   createdAt: number;
   dislikes: string[];
@@ -15,4 +16,5 @@ export interface AnswerShape {
   likes: string[];
   qid: string;
   uid: string;
+  editedAt?: number;
 }

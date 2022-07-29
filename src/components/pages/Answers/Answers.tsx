@@ -32,7 +32,7 @@ function Answers() {
   const [question, setQuestion] = useState({ _id: '' });
   const [loading, setLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const { isUserLoggedIn } = useAuthCtx();
+  const { isUserLoggedIn, user } = useAuthCtx();
 
   useEffect(() => {
     const params = paramsvalue('question');
@@ -40,8 +40,6 @@ function Answers() {
     if (id) actionGetAnswers(id, setAnswers, setLoading);
     if (params) setQuestion(JSON.parse(params));
   }, [id]);
-
-  console.log(answers);
 
   const closeModal = () => {
     setShowModal(false);
@@ -53,6 +51,52 @@ function Answers() {
 
   const handleAddAnswer = (aObj: AnswerShape) => {
     setAnswers((prev) => [aObj, ...prev]);
+  };
+
+  const handleLike = (aId: string) => {
+    const findAnswer = answers.filter((a) => a._id === aId)[0];
+    const reshapedAnswer = { ...findAnswer };
+    const userId = user._id;
+    if (!reshapedAnswer.dislikes.includes(userId)) {
+      if (reshapedAnswer.likes.includes(userId)) {
+        reshapedAnswer.likes = reshapedAnswer.likes.filter(
+          (sL) => sL !== userId,
+        );
+      } else {
+        reshapedAnswer.likes.push(userId);
+      }
+    }
+    setAnswers((prev) => {
+      return prev.map((ans) => {
+        if (ans._id === reshapedAnswer._id) {
+          return reshapedAnswer;
+        }
+        return ans;
+      });
+    });
+  };
+
+  const handleDislike = (aId: string) => {
+    const findAnswer = answers.filter((a) => a._id === aId)[0];
+    const reshapedAnswer = { ...findAnswer };
+    const userId = user._id;
+    if (!reshapedAnswer.likes.includes(userId)) {
+      if (reshapedAnswer.dislikes.includes(userId)) {
+        reshapedAnswer.dislikes = reshapedAnswer.dislikes.filter(
+          (sL) => sL !== userId,
+        );
+      } else {
+        reshapedAnswer.dislikes.push(userId);
+      }
+    }
+    setAnswers((prev) => {
+      return prev.map((ans) => {
+        if (ans._id === reshapedAnswer._id) {
+          return reshapedAnswer;
+        }
+        return ans;
+      });
+    });
   };
 
   return (
@@ -76,7 +120,15 @@ function Answers() {
             )}
           </div>
         </div>
-        {loading ? <BouncingLoader /> : <AnswersList answers={answers} />}
+        {loading ? (
+          <BouncingLoader />
+        ) : (
+          <AnswersList
+            answers={answers}
+            handleLike={handleLike}
+            handleDislike={handleDislike}
+          />
+        )}
       </div>
     </>
   );
