@@ -9,6 +9,7 @@ import Modal from '../../atoms/Modal/Modal';
 import AskQuestionForm from '../../organisms/AskQuestionForm/AskQuestionForm';
 import { useMsgCtx } from '../../../store/MessagingProvider';
 import BouncingLoader from '../../molecules/BouncingLoader/BouncingLoader';
+import type { QuestionShape } from '../../../types/types';
 
 const actionGetQuestions = async (
   setQuestions: (a: any) => void,
@@ -23,7 +24,7 @@ const actionGetQuestions = async (
 };
 
 function Home() {
-  const [questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState<QuestionShape[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const { isUserLoggedIn } = useAuthCtx();
@@ -48,10 +49,17 @@ function Home() {
     setShowModal(false);
   };
 
+  const handleAddQuestion = (qObj: QuestionShape) => {
+    setQuestions((prev) => [qObj, ...prev]);
+  };
+
   return (
     <>
       <Modal show={showModal} closeModal={closeModal}>
-        <AskQuestionForm closeModal={closeModal} />
+        <AskQuestionForm
+          closeModal={closeModal}
+          addQuestion={handleAddQuestion}
+        />
       </Modal>
 
       <div className={css.main}>

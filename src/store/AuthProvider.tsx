@@ -8,10 +8,12 @@ interface Props {
 
 function AuthProvider({ children }: Props) {
   const [token, setToken] = useState(sessionStorage.getItem('tkn'));
+  const [user, setUser] = useState({});
 
-  const login = (tkn: string) => {
+  const login = (tkn: string, credentials: any) => {
     sessionStorage.setItem('tkn', tkn);
     setToken(tkn);
+    setUser(credentials);
   };
 
   const logout = () => {
@@ -19,7 +21,7 @@ function AuthProvider({ children }: Props) {
     setToken(null);
   };
 
-  const ctx = { login, logout, isUserLoggedIn: !!token };
+  const ctx = { login, logout, isUserLoggedIn: !!token, user };
 
   return <AuthContext.Provider value={ctx}>{children}</AuthContext.Provider>;
 }

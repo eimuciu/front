@@ -63,7 +63,7 @@ function Login({ closeModal }) {
       if (pageState === 'login') {
         const loginResponse = await loginUser(values);
         if (loginResponse && loginResponse.success) {
-          login(loginResponse.token);
+          login(loginResponse.token, loginResponse.data);
           makeMessage(loginResponse.msg, 'success');
           setIsLoading(false);
           actions.resetForm();
@@ -136,12 +136,12 @@ function Login({ closeModal }) {
         )}
         {pageState === 'login' && (
           <FormButton type="submit">
-            {loading ? 'Loading...' : 'Login'}
+            {loading ? 'Waiting...' : 'Login'}
           </FormButton>
         )}
         {pageState === 'register' && (
           <FormButton type="submit">
-            {loading ? 'Loading...' : 'Register'}
+            {loading ? 'Waiting...' : 'Register'}
           </FormButton>
         )}
       </form>

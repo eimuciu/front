@@ -46,4 +46,20 @@ async function registerUser(credentials: { email: string; password: string }) {
   }
 }
 
-export { getQuestions, getAnswers, loginUser, registerUser };
+async function postQuestion(qObj: any) {
+  const token = sessionStorage.getItem('tkn');
+
+  try {
+    const res: AxiosResponse = await axios.post(`${BASE_URL}/questions`, qObj, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export { getQuestions, getAnswers, loginUser, registerUser, postQuestion };
