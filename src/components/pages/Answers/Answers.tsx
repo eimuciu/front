@@ -1,7 +1,7 @@
 import css from './Answers.module.scss';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getAnswers } from '../../../api/api';
+import { getAnswers, updateAnswer } from '../../../api/api';
 import paramsvalue from '../../../utils/getParams';
 import QuestionCard from '../../molecules/QuestionCard/QuestionCard';
 import { SmallHeader } from '../../atoms/Header/Header';
@@ -74,6 +74,11 @@ function Answers() {
         return ans;
       });
     });
+    const { _id, ...rest } = reshapedAnswer;
+    updateAnswer(
+      { ...rest, createdAt: new Date(rest.createdAt).valueOf() },
+      aId,
+    );
   };
 
   const handleDislike = (aId: string) => {
@@ -97,6 +102,11 @@ function Answers() {
         return ans;
       });
     });
+    const { _id, ...rest } = reshapedAnswer;
+    updateAnswer(
+      { ...rest, createdAt: new Date(rest.createdAt).valueOf() },
+      aId,
+    );
   };
 
   return (
