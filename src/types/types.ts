@@ -1,4 +1,5 @@
 export interface QuestionShape {
+  _id: string;
   body: string;
   createdAt: number;
   isEdited: boolean;

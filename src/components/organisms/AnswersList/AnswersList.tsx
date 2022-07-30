@@ -5,9 +5,15 @@ interface Props {
   answers: AnswerShape[];
   handleLike: (a: string) => void;
   handleDislike: (a: string) => void;
+  handleDeleteAnswer: () => void;
 }
 
-function AnswersList({ answers, handleLike, handleDislike }: Props) {
+function AnswersList({
+  answers,
+  handleLike,
+  handleDislike,
+  handleDeleteAnswer,
+}: Props) {
   return (
     <div>
       {answers.map((aObj: any) => (
@@ -16,6 +22,7 @@ function AnswersList({ answers, handleLike, handleDislike }: Props) {
           singleAnswer={aObj}
           handleLike={handleLike}
           handleDislike={handleDislike}
+          handleDeleteAnswer={handleDeleteAnswer}
         />
       ))}
     </div>

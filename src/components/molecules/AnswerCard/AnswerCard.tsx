@@ -8,9 +8,15 @@ interface Props {
   singleAnswer: AnswerShape;
   handleLike: (a: string) => void;
   handleDislike: (a: string) => void;
+  handleDeleteAnswer: () => void;
 }
 
-function AnswerCard({ singleAnswer, handleLike, handleDislike }: Props) {
+function AnswerCard({
+  singleAnswer,
+  handleLike,
+  handleDislike,
+  handleDeleteAnswer,
+}: Props) {
   const { user, isUserLoggedIn } = useAuthCtx();
   const { makeMessage } = useMsgCtx();
   let dislikeStyle;
@@ -28,7 +34,9 @@ function AnswerCard({ singleAnswer, handleLike, handleDislike }: Props) {
 
   return (
     <div className={css.main}>
-      {isUserLoggedIn && user._id === singleAnswer.uid && <DropDown />}
+      {isUserLoggedIn && user._id === singleAnswer.uid && (
+        <DropDown onDelete={handleDeleteAnswer} />
+      )}
       <p>{singleAnswer.body}</p>
       <div className={css.info}>
         <span>Asked: {new Date(singleAnswer.createdAt).toLocaleString()}</span>

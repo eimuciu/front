@@ -11,7 +11,7 @@ import { AnswerButton } from '../../atoms/Button/Button';
 import { useAuthCtx } from '../../../store/AuthProvider';
 import Modal from '../../atoms/Modal/Modal';
 import AnswerQuestionForm from '../../organisms/AnswerQuestionForm/AnswerQuestionForm';
-import type { AnswerShape } from '../../../types/types';
+import type { AnswerShape, QuestionShape } from '../../../types/types';
 
 const actionGetAnswers = async (
   id: string,
@@ -26,10 +26,22 @@ const actionGetAnswers = async (
   }
 };
 
-function Answers() {
+interface Props {
+  handleDeleteQuestion: () => void;
+}
+
+function Answers({ handleDeleteQuestion }: Props) {
   const { id } = useParams();
   const [answers, setAnswers] = useState<AnswerShape[]>([]);
-  const [question, setQuestion] = useState({ _id: '' });
+  const [question, setQuestion] = useState<QuestionShape>({
+    _id: '',
+    body: '',
+    createdAt: 0,
+    isEdited: false,
+    isRead: false,
+    title: '',
+    uid: '',
+  });
   const [loading, setLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const { isUserLoggedIn, user } = useAuthCtx();
@@ -109,6 +121,10 @@ function Answers() {
     );
   };
 
+  const handleDeleteAnswer = () => {
+    console.log('Answer will be deleted');
+  };
+
   return (
     <>
       <Modal show={showModal} closeModal={closeModal}>
@@ -119,7 +135,10 @@ function Answers() {
         />
       </Modal>
       <div>
-        <QuestionCard singleQuestion={question} />
+        <QuestionCard
+          singleQuestion={question}
+          handleDeleteQuestion={handleDeleteQuestion}
+        />
         <div className={css.smallContainer}>
           <SmallHeader text={`${answers.length} Answers`} />
           <div>
@@ -137,6 +156,7 @@ function Answers() {
             answers={answers}
             handleLike={handleLike}
             handleDislike={handleDislike}
+            handleDeleteAnswer={handleDeleteAnswer}
           />
         )}
       </div>

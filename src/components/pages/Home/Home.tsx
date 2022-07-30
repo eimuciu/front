@@ -23,7 +23,11 @@ const actionGetQuestions = async (
   }
 };
 
-function Home() {
+interface Props {
+  handleDeleteQuestion: () => void;
+}
+
+function Home({ handleDeleteQuestion }: Props) {
   const [questions, setQuestions] = useState<QuestionShape[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -66,7 +70,14 @@ function Home() {
           <BigHeader text="All Questions" />
           <Button onClick={askQuestionHandler}>Ask Question</Button>
         </div>
-        {loading ? <BouncingLoader /> : <QuestionsList questions={questions} />}
+        {loading ? (
+          <BouncingLoader />
+        ) : (
+          <QuestionsList
+            questions={questions}
+            handleDeleteQuestion={handleDeleteQuestion}
+          />
+        )}
       </div>
     </>
   );

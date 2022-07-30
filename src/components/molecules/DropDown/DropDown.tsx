@@ -1,7 +1,11 @@
 import css from './DropDown.module.scss';
 import { useState } from 'react';
 
-function DropDown() {
+interface Props {
+  onDelete: () => void;
+}
+
+function DropDown({ onDelete }: Props) {
   const [open, setOpen] = useState(false);
   const openStyles = open ? 'block' : 'none';
 
@@ -21,13 +25,7 @@ function DropDown() {
           >
             Edit
           </p>
-          <p
-            onClick={() => {
-              alert('delete clicked');
-            }}
-          >
-            Delete
-          </p>
+          <p onClick={onDelete}>Delete</p>
         </div>
       </div>
     </div>

@@ -10,14 +10,24 @@ import { useMsgCtx } from './store/MessagingProvider';
 function App() {
   const { message, showMessage, messageType } = useMsgCtx();
 
+  const handleDeleteQuestion = () => {
+    console.log('Question will be deleted');
+  };
+
   return (
     <>
       <MessageModal message={message} type={messageType} show={showMessage} />
       <NavBar />
       <div className={css.main}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/answers/:id" element={<Answers />} />
+          <Route
+            path="/"
+            element={<Home handleDeleteQuestion={handleDeleteQuestion} />}
+          />
+          <Route
+            path="/answers/:id"
+            element={<Answers handleDeleteQuestion={handleDeleteQuestion} />}
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
