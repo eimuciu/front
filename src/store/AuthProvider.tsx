@@ -25,6 +25,7 @@ function AuthProvider({ children }: Props) {
 
   const logout = () => {
     sessionStorage.removeItem('tkn');
+    sessionStorage.removeItem('usr');
     setToken(null);
   };
 

@@ -2,6 +2,8 @@ import css from './AnswerCard.module.scss';
 import { AnswerShape } from '../../../types/types';
 import { useAuthCtx } from '../../../store/AuthProvider';
 import { useMsgCtx } from '../../../store/MessagingProvider';
+import DropDown from '../DropDown/DropDown';
+
 interface Props {
   singleAnswer: AnswerShape;
   handleLike: (a: string) => void;
@@ -11,15 +13,22 @@ interface Props {
 function AnswerCard({ singleAnswer, handleLike, handleDislike }: Props) {
   const { user, isUserLoggedIn } = useAuthCtx();
   const { makeMessage } = useMsgCtx();
-  const dislikeStyle =
-    singleAnswer.dislikes.includes(user._id) && isUserLoggedIn
-      ? 'red'
-      : 'black';
-  const likeStyle =
-    singleAnswer.likes.includes(user._id) && isUserLoggedIn ? 'green' : 'black';
+  let dislikeStyle;
+  let likeStyle;
+  if (user) {
+    dislikeStyle =
+      singleAnswer.dislikes.includes(user._id) && isUserLoggedIn
+        ? 'red'
+        : 'black';
+    likeStyle =
+      singleAnswer.likes.includes(user._id) && isUserLoggedIn
+        ? 'green'
+        : 'black';
+  }
 
   return (
     <div className={css.main}>
+      <DropDown />
       <p>{singleAnswer.body}</p>
       <div className={css.info}>
         <span>Asked: {new Date(singleAnswer.createdAt).toLocaleString()}</span>
@@ -43,7 +52,7 @@ function AnswerCard({ singleAnswer, handleLike, handleDislike }: Props) {
             {singleAnswer.dislikes.length}{' '}
             <i
               style={{ color: dislikeStyle }}
-              className="fa fa-thumbs-o-down"
+              className="fa fa-thumbs-down"
             ></i>
           </span>
           <span
@@ -58,7 +67,7 @@ function AnswerCard({ singleAnswer, handleLike, handleDislike }: Props) {
             className={css.reaction}
           >
             {singleAnswer.likes.length}{' '}
-            <i style={{ color: likeStyle }} className="fa fa-thumbs-o-up"></i>
+            <i style={{ color: likeStyle }} className="fa fa-thumbs-up"></i>
           </span>
         </div>
       </div>
