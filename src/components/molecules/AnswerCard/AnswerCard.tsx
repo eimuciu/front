@@ -28,7 +28,7 @@ function AnswerCard({ singleAnswer, handleLike, handleDislike }: Props) {
 
   return (
     <div className={css.main}>
-      <DropDown />
+      {isUserLoggedIn && user._id === singleAnswer.uid && <DropDown />}
       <p>{singleAnswer.body}</p>
       <div className={css.info}>
         <span>Asked: {new Date(singleAnswer.createdAt).toLocaleString()}</span>
