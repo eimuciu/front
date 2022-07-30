@@ -5,7 +5,7 @@ interface Props {
   answers: AnswerShape[];
   handleLike: (a: string) => void;
   handleDislike: (a: string) => void;
-  handleDeleteAnswer: () => void;
+  handleDeleteAnswer: (a: string) => void;
 }
 
 function AnswersList({

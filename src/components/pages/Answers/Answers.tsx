@@ -1,7 +1,7 @@
 import css from './Answers.module.scss';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getAnswers, updateAnswer } from '../../../api/api';
+import { getAnswers, updateAnswer, deleteAnswer } from '../../../api/api';
 import paramsvalue from '../../../utils/getParams';
 import QuestionCard from '../../molecules/QuestionCard/QuestionCard';
 import { SmallHeader } from '../../atoms/Header/Header';
@@ -12,6 +12,7 @@ import { useAuthCtx } from '../../../store/AuthProvider';
 import Modal from '../../atoms/Modal/Modal';
 import AnswerQuestionForm from '../../organisms/AnswerQuestionForm/AnswerQuestionForm';
 import type { AnswerShape, QuestionShape } from '../../../types/types';
+import { useMsgCtx } from '../../../store/MessagingProvider';
 
 const actionGetAnswers = async (
   id: string,
@@ -45,6 +46,7 @@ function Answers({ handleDeleteQuestion }: Props) {
   const [loading, setLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const { isUserLoggedIn, user } = useAuthCtx();
+  const { makeMessage } = useMsgCtx();
 
   useEffect(() => {
     const params = paramsvalue('question');
@@ -121,8 +123,16 @@ function Answers({ handleDeleteQuestion }: Props) {
     );
   };
 
-  const handleDeleteAnswer = () => {
-    console.log('Answer will be deleted');
+  const handleDeleteAnswer = async (aId: string) => {
+    const res = await deleteAnswer(aId);
+    if (res?.data.success) {
+      makeMessage(res.data.msg, 'success');
+      setAnswers((prev) => {
+        return prev.filter((sAns) => sAns._id !== aId);
+      });
+      return;
+    }
+    makeMessage(res?.data.msg, 'error');
   };
 
   return (

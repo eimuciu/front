@@ -102,6 +102,24 @@ async function updateAnswer(aObj: any, aId: string) {
   }
 }
 
+async function deleteAnswer(aId: string) {
+  const token = sessionStorage.getItem('tkn');
+
+  try {
+    const res: AxiosResponse = await axios.delete(
+      `${BASE_URL}/answers/${aId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return res;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export {
   getQuestions,
   getAnswers,
@@ -110,4 +128,5 @@ export {
   postQuestion,
   postAnswer,
   updateAnswer,
+  deleteAnswer,
 };

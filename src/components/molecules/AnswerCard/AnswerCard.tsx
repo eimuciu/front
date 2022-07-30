@@ -8,7 +8,7 @@ interface Props {
   singleAnswer: AnswerShape;
   handleLike: (a: string) => void;
   handleDislike: (a: string) => void;
-  handleDeleteAnswer: () => void;
+  handleDeleteAnswer: (a: string) => void;
 }
 
 function AnswerCard({
@@ -35,7 +35,7 @@ function AnswerCard({
   return (
     <div className={css.main}>
       {isUserLoggedIn && user._id === singleAnswer.uid && (
-        <DropDown onDelete={handleDeleteAnswer} />
+        <DropDown onDelete={() => handleDeleteAnswer(singleAnswer._id)} />
       )}
       <p>{singleAnswer.body}</p>
       <div className={css.info}>
