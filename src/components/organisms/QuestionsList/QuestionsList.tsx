@@ -2,7 +2,7 @@ import QuestionCard from '../../molecules/QuestionCard/QuestionCard';
 import type { QuestionShape } from '../../../types/types';
 
 interface Props {
-  handleDeleteQuestion: () => void;
+  handleDeleteQuestion: (a: string) => void;
   questions: QuestionShape[];
 }
 

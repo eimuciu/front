@@ -120,6 +120,24 @@ async function deleteAnswer(aId: string) {
   }
 }
 
+async function deleteQuestion(qId: string) {
+  const token = sessionStorage.getItem('tkn');
+
+  try {
+    const res: AxiosResponse = await axios.delete(
+      `${BASE_URL}/questions/${qId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return res;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export {
   getQuestions,
   getAnswers,
@@ -129,4 +147,5 @@ export {
   postAnswer,
   updateAnswer,
   deleteAnswer,
+  deleteQuestion,
 };

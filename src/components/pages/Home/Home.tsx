@@ -24,7 +24,7 @@ const actionGetQuestions = async (
 };
 
 interface Props {
-  handleDeleteQuestion: () => void;
+  handleDeleteQuestion: (a: string, b: (c: string) => void) => void;
 }
 
 function Home({ handleDeleteQuestion }: Props) {
@@ -57,6 +57,12 @@ function Home({ handleDeleteQuestion }: Props) {
     setQuestions((prev) => [qObj, ...prev]);
   };
 
+  const deleteStateUpdate = (qId: string) => {
+    setQuestions((prev) => {
+      return prev.filter((sQ) => sQ._id !== qId);
+    });
+  };
+
   return (
     <>
       <Modal show={showModal} closeModal={closeModal}>
@@ -75,7 +81,9 @@ function Home({ handleDeleteQuestion }: Props) {
         ) : (
           <QuestionsList
             questions={questions}
-            handleDeleteQuestion={handleDeleteQuestion}
+            handleDeleteQuestion={(qId) =>
+              handleDeleteQuestion(qId, deleteStateUpdate)
+            }
           />
         )}
       </div>

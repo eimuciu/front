@@ -6,7 +6,7 @@ import { QuestionShape } from '../../../types/types';
 
 interface Props {
   singleQuestion: QuestionShape;
-  handleDeleteQuestion: () => void;
+  handleDeleteQuestion: (a: string) => void;
 }
 
 function QuestionCard({ singleQuestion, handleDeleteQuestion }: Props) {
@@ -14,7 +14,7 @@ function QuestionCard({ singleQuestion, handleDeleteQuestion }: Props) {
   return (
     <div className={css.main}>
       {isUserLoggedIn && user._id === singleQuestion.uid && (
-        <DropDown onDelete={handleDeleteQuestion} />
+        <DropDown onDelete={() => handleDeleteQuestion(singleQuestion._id)} />
       )}
       <Link
         to={`/answers/${singleQuestion._id}?question=${JSON.stringify(

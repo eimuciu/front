@@ -28,7 +28,7 @@ const actionGetAnswers = async (
 };
 
 interface Props {
-  handleDeleteQuestion: () => void;
+  handleDeleteQuestion: (a: string) => void;
 }
 
 function Answers({ handleDeleteQuestion }: Props) {
