@@ -39,7 +39,6 @@ function AskQuestionForm({ closeModal, addQuestion }: Props) {
   const [loading, setLoading] = useState(false);
   const { user } = useAuthCtx();
   const { makeMessage } = useMsgCtx();
-  console.log(user);
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validation,

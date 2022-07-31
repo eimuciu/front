@@ -7,7 +7,6 @@ import { FormButton } from '../../atoms/Button/Button';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { updateQuestion } from '../../../api/api';
-import { useAuthCtx } from '../../../store/AuthProvider';
 import { useMsgCtx } from '../../../store/MessagingProvider';
 import type { QuestionShape } from '../../../types/types';
 
@@ -28,9 +27,8 @@ function UpdateQuestionForm({
   questionObj,
 }: Props) {
   const [loading, setLoading] = useState(false);
-  const { user } = useAuthCtx();
   const { makeMessage } = useMsgCtx();
-  console.log(user);
+
   const formik = useFormik({
     initialValues: { body: questionObj.body, title: questionObj.title },
     validationSchema: validation,

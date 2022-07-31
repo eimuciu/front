@@ -31,28 +31,23 @@ interface Props {
   handleDeleteQuestion: (a: string) => void;
 }
 
+const destructureParams = () => {
+  const params = paramsvalue('question');
+  if (params) return JSON.parse(params);
+};
+
 function Answers({ handleDeleteQuestion }: Props) {
   const { id } = useParams();
   const [answers, setAnswers] = useState<AnswerShape[]>([]);
-  const [question, setQuestion] = useState<QuestionShape>({
-    _id: '',
-    body: '',
-    createdAt: 0,
-    isEdited: false,
-    isRead: false,
-    title: '',
-    uid: '',
-  });
+  const [question, setQuestion] = useState<QuestionShape>(destructureParams());
   const [loading, setLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const { isUserLoggedIn, user } = useAuthCtx();
   const { makeMessage } = useMsgCtx();
 
   useEffect(() => {
-    const params = paramsvalue('question');
     setLoading(true);
     if (id) actionGetAnswers(id, setAnswers, setLoading);
-    if (params) setQuestion(JSON.parse(params));
   }, [id]);
 
   const closeModal = () => {
@@ -148,6 +143,10 @@ function Answers({ handleDeleteQuestion }: Props) {
     });
   };
 
+  const handleUpdateQuestion = (qObj: QuestionShape) => {
+    setQuestion((_) => ({ ...qObj }));
+  };
+
   return (
     <>
       <Modal show={showModal} closeModal={closeModal}>
@@ -161,7 +160,7 @@ function Answers({ handleDeleteQuestion }: Props) {
         <QuestionCard
           singleQuestion={question}
           handleDeleteQuestion={handleDeleteQuestion}
-          handleUpdateQuestion={() => {}}
+          handleUpdateQuestion={handleUpdateQuestion}
         />
         <div className={css.smallContainer}>
           <SmallHeader text={`${answers.length} Answers`} />

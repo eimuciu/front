@@ -39,8 +39,6 @@ function Home({ handleDeleteQuestion }: Props) {
     actionGetQuestions(setQuestions, setLoading);
   }, []);
 
-  console.log(questions);
-
   const openModal = () => {
     setShowModal(true);
   };
