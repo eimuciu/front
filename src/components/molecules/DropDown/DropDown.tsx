@@ -3,9 +3,10 @@ import { useState } from 'react';
 
 interface Props {
   onDelete: () => void;
+  onEdit: () => void;
 }
 
-function DropDown({ onDelete }: Props) {
+function DropDown({ onDelete, onEdit }: Props) {
   const [open, setOpen] = useState(false);
   const openStyles = open ? 'block' : 'none';
 
@@ -18,13 +19,7 @@ function DropDown({ onDelete }: Props) {
       <div className={css.dropContainer}>
         <i className={`fa fa-arrow-circle-${open ? 'down' : 'left'}`}></i>
         <div className={css.dropItems} style={{ display: openStyles }}>
-          <p
-            onClick={() => {
-              alert('edit clicked');
-            }}
-          >
-            Edit
-          </p>
+          <p onClick={onEdit}>Edit</p>
           <p onClick={onDelete}>Delete</p>
         </div>
       </div>

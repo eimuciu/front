@@ -29,7 +29,6 @@ function App() {
     if (res?.data.success) {
       makeMessage(res.data.msg, 'success');
       deleteStateUpdate(qId);
-
       return;
     }
     makeMessage(res?.data.msg, 'error');

@@ -41,16 +41,20 @@ function Home({ handleDeleteQuestion }: Props) {
 
   console.log(questions);
 
-  const askQuestionHandler = () => {
-    if (!isUserLoggedIn) {
-      makeMessage('Please login before asking a question', 'error');
-      return;
-    }
+  const openModal = () => {
     setShowModal(true);
   };
 
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  const askQuestionHandler = () => {
+    if (!isUserLoggedIn) {
+      makeMessage('Please login before asking a question', 'error');
+      return;
+    }
+    openModal();
   };
 
   const handleAddQuestion = (qObj: QuestionShape) => {

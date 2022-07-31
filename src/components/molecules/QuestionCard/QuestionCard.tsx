@@ -14,7 +14,10 @@ function QuestionCard({ singleQuestion, handleDeleteQuestion }: Props) {
   return (
     <div className={css.main}>
       {isUserLoggedIn && user._id === singleQuestion.uid && (
-        <DropDown onDelete={() => handleDeleteQuestion(singleQuestion._id)} />
+        <DropDown
+          onDelete={() => handleDeleteQuestion(singleQuestion._id)}
+          onEdit={() => {}}
+        />
       )}
       <Link
         to={`/answers/${singleQuestion._id}?question=${JSON.stringify(

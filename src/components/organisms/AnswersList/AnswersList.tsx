@@ -6,6 +6,7 @@ interface Props {
   handleLike: (a: string) => void;
   handleDislike: (a: string) => void;
   handleDeleteAnswer: (a: string) => void;
+  handleEditAnswer: (a: AnswerShape) => void;
 }
 
 function AnswersList({
@@ -13,6 +14,7 @@ function AnswersList({
   handleLike,
   handleDislike,
   handleDeleteAnswer,
+  handleEditAnswer,
 }: Props) {
   return (
     <div>
@@ -23,6 +25,7 @@ function AnswersList({
           handleLike={handleLike}
           handleDislike={handleDislike}
           handleDeleteAnswer={handleDeleteAnswer}
+          handleEditAnswer={handleEditAnswer}
         />
       ))}
     </div>

@@ -59,8 +59,12 @@ function Answers({ handleDeleteQuestion }: Props) {
     setShowModal(false);
   };
 
-  const handleAnswerQuestionButton = () => {
+  const openModal = () => {
     setShowModal(true);
+  };
+
+  const handleAnswerQuestionButton = () => {
+    openModal();
   };
 
   const handleAddAnswer = (aObj: AnswerShape) => {
@@ -89,8 +93,11 @@ function Answers({ handleDeleteQuestion }: Props) {
       });
     });
     const { _id, ...rest } = reshapedAnswer;
+    const editedKey = rest.editedAt
+      ? { editedAt: new Date(rest.editedAt).valueOf() }
+      : undefined;
     updateAnswer(
-      { ...rest, createdAt: new Date(rest.createdAt).valueOf() },
+      { ...rest, createdAt: new Date(rest.createdAt).valueOf(), ...editedKey },
       aId,
     );
   };
@@ -135,6 +142,12 @@ function Answers({ handleDeleteQuestion }: Props) {
     makeMessage(res?.data.msg, 'error');
   };
 
+  const handleEditAnswer = (aObj: AnswerShape) => {
+    setAnswers((prev) => {
+      return prev.map((sA) => (sA._id === aObj._id ? aObj : sA));
+    });
+  };
+
   return (
     <>
       <Modal show={showModal} closeModal={closeModal}>
@@ -167,6 +180,7 @@ function Answers({ handleDeleteQuestion }: Props) {
             handleLike={handleLike}
             handleDislike={handleDislike}
             handleDeleteAnswer={handleDeleteAnswer}
+            handleEditAnswer={handleEditAnswer}
           />
         )}
       </div>
