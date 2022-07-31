@@ -25,3 +25,12 @@
   background-color: $color;
   color: white;
 }
+
+.filterButton {
+  @include buttonM;
+  $color: var(--color-fifth);
+  background-color: $color;
+  color: white;
+  padding: 5px 15px;
+  margin-left: 5px;
+}

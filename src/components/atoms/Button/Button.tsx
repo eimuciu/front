@@ -30,4 +30,12 @@ export function AnswerButton({ children, onClick, type }: Props): JSX.Element {
   );
 }
 
+export function FilterButton({ children, onClick, type }: Props): JSX.Element {
+  return (
+    <button type={type} className={css.filterButton} onClick={onClick}>
+      {children}
+    </button>
+  );
+}
+
 export default Button;

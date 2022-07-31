@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import css from './Home.module.scss';
-import Button from '../../atoms/Button/Button';
+import Button, { FilterButton } from '../../atoms/Button/Button';
 import { BigHeader } from '../../atoms/Header/Header';
 import QuestionsList from '../../organisms/QuestionsList/QuestionsList';
 import { getQuestions } from '../../../api/api';
@@ -71,6 +71,27 @@ function Home({ handleDeleteQuestion }: Props) {
     });
   };
 
+  const filterBy = (filter: string) => {
+    const qCopy = [...questions];
+
+    switch (filter) {
+      case 'DATE':
+        qCopy.sort((a, b) =>
+          new Date(a.createdAt) < new Date(b.createdAt) ? 1 : -1,
+        );
+        setQuestions(qCopy);
+        break;
+      case 'ANSWERS':
+        qCopy.sort((a, b) => (a.answers < b.answers ? 1 : -1));
+        setQuestions(qCopy);
+        break;
+      case 'UNANSWERED':
+        qCopy.sort((a, b) => (a.answers > b.answers ? 1 : -1));
+        setQuestions(qCopy);
+        break;
+    }
+  };
+
   return (
     <>
       <Modal show={showModal} closeModal={closeModal}>
@@ -83,6 +104,20 @@ function Home({ handleDeleteQuestion }: Props) {
         <div className={css.header}>
           <BigHeader text="All Questions" />
           <Button onClick={askQuestionHandler}>Ask Question</Button>
+        </div>
+        <div className={css.sortingContainer}>
+          <p>{questions.length} questions</p>
+          <div>
+            <FilterButton onClick={() => filterBy('DATE')}>
+              By Date
+            </FilterButton>
+            <FilterButton onClick={() => filterBy('ANSWERS')}>
+              By Answers
+            </FilterButton>
+            <FilterButton onClick={() => filterBy('UNANSWERED')}>
+              Unanswered
+            </FilterButton>
+          </div>
         </div>
         {loading ? (
           <BouncingLoader />
