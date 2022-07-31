@@ -6,6 +6,7 @@ export interface QuestionShape {
   isRead: boolean;
   title: string;
   uid: string;
+  answers: number;
   editedAt?: number;
 }
 

@@ -54,8 +54,9 @@ function QuestionCard({
         </Link>
         <p>{singleQuestion.body}</p>
         <div className={css.info}>
+          <span>{singleQuestion.answers} Answers</span>
           <span>
-            Aksed: {new Date(singleQuestion.createdAt).toLocaleString()}
+            Asked: {new Date(singleQuestion.createdAt).toLocaleString()}
           </span>
           {singleQuestion.editedAt && (
             <span>

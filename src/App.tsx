@@ -7,7 +7,6 @@ import Answers from './components/pages/Answers/Answers';
 import MessageModal from './components/molecules/MessageModal/MessageModal';
 import { useMsgCtx } from './store/MessagingProvider';
 import { deleteQuestion } from './api/api';
-import { QuestionShape } from './types/types';
 
 function App() {
   const { message, showMessage, messageType, makeMessage } = useMsgCtx();
