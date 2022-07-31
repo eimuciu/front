@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { AnswerShape } from '../types/types';
+import { AnswerShape, QuestionShape } from '../types/types';
 
 const BASE_URL = 'http://localhost:3001';
 
@@ -57,6 +57,26 @@ async function postQuestion(qObj: any) {
         Authorization: `Bearer ${token}`,
       },
     });
+    return res;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function updateQuestion(qObj: any, qId: string) {
+  const token = sessionStorage.getItem('tkn');
+
+  try {
+    const res: AxiosResponse = await axios.put(
+      `${BASE_URL}/questions/${qId}`,
+      qObj,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
     return res;
   } catch (err) {
     console.log(err);
@@ -149,4 +169,5 @@ export {
   updateAnswer,
   deleteAnswer,
   deleteQuestion,
+  updateQuestion,
 };

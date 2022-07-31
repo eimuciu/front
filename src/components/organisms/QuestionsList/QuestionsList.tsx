@@ -3,10 +3,15 @@ import type { QuestionShape } from '../../../types/types';
 
 interface Props {
   handleDeleteQuestion: (a: string) => void;
+  handleUpdateQuestion: (a: QuestionShape) => void;
   questions: QuestionShape[];
 }
 
-function QuestionsList({ questions, handleDeleteQuestion }: Props) {
+function QuestionsList({
+  questions,
+  handleDeleteQuestion,
+  handleUpdateQuestion,
+}: Props) {
   return (
     <div>
       {questions.map((qObj) => (
@@ -14,6 +19,7 @@ function QuestionsList({ questions, handleDeleteQuestion }: Props) {
           key={qObj._id}
           singleQuestion={qObj}
           handleDeleteQuestion={handleDeleteQuestion}
+          handleUpdateQuestion={handleUpdateQuestion}
         />
       ))}
     </div>

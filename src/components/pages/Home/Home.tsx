@@ -67,6 +67,12 @@ function Home({ handleDeleteQuestion }: Props) {
     });
   };
 
+  const handleUpdateQuestion = (qObj: QuestionShape) => {
+    setQuestions((prev) => {
+      return prev.map((sQ) => (sQ._id === qObj._id ? qObj : sQ));
+    });
+  };
+
   return (
     <>
       <Modal show={showModal} closeModal={closeModal}>
@@ -88,6 +94,7 @@ function Home({ handleDeleteQuestion }: Props) {
             handleDeleteQuestion={(qId) =>
               handleDeleteQuestion(qId, deleteStateUpdate)
             }
+            handleUpdateQuestion={handleUpdateQuestion}
           />
         )}
       </div>

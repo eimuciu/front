@@ -161,6 +161,7 @@ function Answers({ handleDeleteQuestion }: Props) {
         <QuestionCard
           singleQuestion={question}
           handleDeleteQuestion={handleDeleteQuestion}
+          handleUpdateQuestion={() => {}}
         />
         <div className={css.smallContainer}>
           <SmallHeader text={`${answers.length} Answers`} />
