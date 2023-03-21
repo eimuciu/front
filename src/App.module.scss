@@ -1,7 +1,8 @@
-@mixin colormix {
-  color: green;
-}
+@import './theme/mixins';
 
-.hello  {
-@include colormix
+
+.main  {
+width: 50%;
+margin: 0 auto;
+@include small
 }
